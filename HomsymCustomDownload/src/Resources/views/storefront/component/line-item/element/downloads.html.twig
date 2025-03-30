@@ -1,0 +1,169 @@
+{% sw_extends '@Storefront/storefront/component/line-item/element/downloads.html.twig' %}
+
+{% block component_line_item_downloads %}
+    {{ parent() }} {# Ensures the original template content is included #}
+
+    {% if lineItem.downloads is defined and lineItem.downloads|length > 0 %}
+        {% set firstDownload = lineItem.downloads|first %}
+
+        {% if firstDownload.accessGranted %}
+            {% if firstDownload %}
+            <div class="download-zip-container" style="text-align: right; margin-top: 10px; margin-bottom: 10px; margin-right: 20px;">
+                <a href="#"
+                   class="btn btn-primary download-zip-btn"
+                   data-download-id="{{ firstDownload.id }}"
+                   data-order-id="{{ order.id ?? 'unknown-order' }}">
+                    Download All Media as Zip
+                </a>
+
+                <!-- Pop-up Modal -->
+                        <div id="downloadPopup" class="download-popup" >
+                            <div class="download-popup-content">
+                                <h2>{{ 'account.orderDownloadZipPopupHeader1'|trans }}</h2>
+                                <p>{{ 'account.orderDownloadZipPopupHeader2'|trans }}</p>
+
+                                <!-- Terms of Use Section (Loading from a text file) -->
+                                      <div class="terms-container">
+                                              <pre style="font-family:'JetBrains Mono',monospace;font-size:9,8pt;">
+Nutzungsbedingungen f&uuml;r Downloads
+
+Stand: 1. M&auml;rz 2018
+
+Gem&auml;&szlig; Artikel 246a Absatz 1 EGBGB n.F. informieren wir Sie hier unter anderem:
+
+- &uuml;ber die Funktionsweise digitaler Inhalte: &sect; 2.3
+
+- &uuml;ber Beschr&auml;nkungen der Interoperabilit&auml;t und der Kompatibilit&auml;t digitaler Inhalte mit Hard- und Software: &sect; 2.4
+
+- &uuml;ber angewandte technische Schutzma&szlig;nahmen f&uuml;r unsere Inhalte: &sect; 5.3 ff
+
+&sect; 1 Geltungsbereich
+(1) Die nachstehenden Nutzungsbedingungen f&uuml;r Downloads gelten f&uuml;r jede Nutzung von Download-Leistungen des Verlags Hom&ouml;opathie + Symbol (nachfolgend &bdquo;Anbieter&ldquo; genannt) und f&uuml;r jeden Vertrag zwischen dem Anbieter und seinen Kunden (im Folgenden &bdquo;Nutzer&ldquo; genannt) wie auch deren Rechtsnachfolgern, die sich auf Download-Leistungen des Anbieters beziehen. Der Anbieter erbringt Download-Leistungen ausschlie&szlig;lich auf Grundlage dieser Bedingungen.
+
+Bitte klicken Sie vor der Abgabe Ihrer Bestellung sowie vor jedem Download im daf&uuml;r vorgesehenen Eingabefeld auf &bdquo;Einverstanden&ldquo;, wenn Sie mit diesen Bedingungen einverstanden sind. Bitte klicken Sie nicht auf &bdquo;Einverstanden&ldquo;, wenn Sie mit diesen Bedingungen nicht einverstanden sind.
+
+(2) Der Anbieter bietet einen Service an, der es Nutzern m&ouml;glich macht, &uuml;ber die Webseite des Anbieters oder mittels Anwendungen f&uuml;r mobile Endger&auml;te (&bdquo;Apps&ldquo;) Download-Inhalte zu finden, zu kaufen, herunterzuladen und zu h&ouml;ren (nachfolgend &bdquo;Download-Service&rdquo; genannt). Mit der Nutzung des Download-Service erkennt der Nutzer die hier beschriebenen Bedingungen verbindlich an. Bitte lesen Sie sie als Nutzer daher sorgf&auml;ltig durch.
+
+(3) Neben den &bdquo;Gesch&auml;fts- und Nutzungsbedingungen f&uuml;r Downloads&ldquo; finden bei der Nutzung des Anbieter-Service dessen &quot;Allgemeine Gesch&auml;ftsbedingungen&ldquo;Anwendung auf alle K&auml;ufe, die bei ihm get&auml;tigt werden. Die &bdquo;Gesch&auml;fts- und Nutzungsbedingungen f&uuml;r Downloads&ldquo; gelten in ihrer jeweils zum Zeitpunkt des Vertragsschlusses g&uuml;ltigen Fassung. Der Anbieter beh&auml;lt sich das Recht vor, die Bedingungen jederzeit ohne weitere Benachrichtigung zu &auml;ndern.
+
+(4) Datenschutz: Im Zusammenhang mit der hier beschriebenen Nutzung speichern wir Ihre Kundennummer und die Nummer der Bestellung verschl&uuml;sselt in Ihren Download-Dateien, doch keine sonstigen Kundendaten (vgl. &sect;5.5). Im &Uuml;brigen gilt f&uuml;r den Umgang mit Ihren pers&ouml;nlichen Daten unsere Datenschutzerkl&auml;rung.
+
+&sect; 2 Vertragsgegenstand / Leistungsbeschreibung
+(1) Gegenstand des Vertrags ist der Download von Titeln des Anbieters in Form von Mediendateien (im folgenden &bdquo;Download-Inhalte&ldquo;). Download-Inhalte sind digitale Dateien, die Audio- und/oder Videomaterial in einem markt&uuml;blichen digitalen Format (z. B. MP3) oder in gepackter Form (z. B. ZIP) enthalten.
+
+(2) Vorbehaltlich der Einhaltung dieser Nutzungsbedingungen und der Begleichung ggf. anfallender Geb&uuml;hren, wird dem Nutzer mit dem Erwerb des Download-Inhalts ein pers&ouml;nliches, zeitlich unbefristetes, auf Eigengebrauch beschr&auml;nktes, nicht-exklusives, un&uuml;bertragbares und nicht unterlizenzierbares Nutzungsrecht f&uuml;r den Zugriff auf den Download-Service und die Nutzung der Download-Inhalte gew&auml;hrt. Die Lizenz umfasst nicht den Weiterverkauf oder die kommerzielle Nutzung der Download-Inhalte. Den jeweiligen Leistungs- und Rechteumfang der Nutzung entnehmen Sie bitte den Regelungen zu &sect; 5.
+
+(3) Funktionsweise: Audio- und Videoinhalte werden dem Nutzer in einem jeweils markt&uuml;blichen Format (derzeit: MP3 bei Audiodaten, MP4 bei Videodaten) zum Herunterladen &uuml;ber die Internetverbindung des Nutzers, zur Speicherung und zur digitalen Wiedergabe auf kompatibler Hard- und Software (N&auml;heres siehe &sect; 2.4) zur Verf&uuml;gung gestellt. Neben den eigentlichen Audio- und Videoinhalten kann die Lieferung zus&auml;tzliches textliches oder bildliches Material umfassen, das in Form einer markt&uuml;blichen PDF-Datei zur Verf&uuml;gung gestellt wird.
+
+Download-Inhalte, die aus mehreren Einzeldateien bestehen, werden in Form gepackter Dateien (sog. ZIP-Format) &uuml;bertragen. Die ZIP-Datei enth&auml;lt die nutzbaren inhaltlichen Dateien. Die darin enthaltenen Dateien m&uuml;ssen vor ihrer Nutzung zun&auml;chst entpackt werden. Die daf&uuml;r ben&ouml;tigte Entpack-Software ist auf heute g&auml;ngigen Computern meist bereits integriert. Sollten Sie keine solche Software besitzen, helfen wir Ihnen gerne weiter. Die Bereitstellung zus&auml;tzlicher Software oder die &Uuml;bertragung vom Computer ist allerdings nicht Teil unserer vertraglichen Leistung.
+
+(4) Interoperabilit&auml;t und Kompatibilit&auml;t: Unsere Audio- und Videodaten sind interoperabel, d. h. mit verschiedenen markt&uuml;blichen Personal-Computern (Windows&reg; ab Version XP, Apple&reg; ab iOS&reg; 5), Tablet-Computern (ab Android&reg; 4.2, Apple IPad&reg;), Smartphones (ab Android&reg; 4.1, Apple iPhone&reg; ab iPhone3) und markt&uuml;blichen Abspielprogrammen kompatibel und nutzbar. Markt&uuml;bliche Abspielprogramme sind z. B. Windows Media Player&reg; und Apple ITunes&reg;. Wir haften jedoch nicht f&uuml;r die Nutzbarkeit der Daten durch andere Abspielprogramme oder Hardware. Bitte beachten Sie, dass die gelieferten ZIP-Dateien nicht immer direkt auf Smartphones oder anderer Nicht-PC-Hardware entpackt werden k&ouml;nnen. Wir k&ouml;nnen eine lokale Entpackbarkeit der ZIP-Dateien lediglich auf den o. g. PC-Betriebssystemen zusichern, sofern darauf eine Entpacksoftware bereits installiert ist. Hinweis: Falls Ihre Hardware oder Ihr Programm eine Datei von uns nicht entpacken oder abspielen kann, informieren Sie uns bitte. Wir helfen Ihnen nach M&ouml;glichkeit gerne weiter. Bitte lesen Sie dazu auch unsere &quot;Anleitung zum Gebrauch von Downloads&quot; (PDF).
+
+(5) Der Download steht dem Nutzer f&uuml;r eine bestimmte Zeitspanne und f&uuml;r eine bestimmte Anzahl von Downloads zur Verf&uuml;gung, die dem Nutzer mit der Downloadbenachrichtigung sowie in seinem Nutzerkonto jederzeit bekannt gegeben wird.
+
+(6) Der Anbieter haftet nicht f&uuml;r die Sicherheit und den Bestand der Datenkommunikation, soweit diese &uuml;ber Kommunikationsnetze nicht von ihm beauftragter Dritter erfolgt. Der Anbieter haftet auch nicht f&uuml;r die Folgen von St&ouml;rungen in der Daten&uuml;bermittlung, die durch technische Fehler oder Konfigurationsprobleme auf K&auml;uferseite entstehen.
+
+&sect; 3 Zustandekommen der Nutzung
+
+(1) Die Nutzung im Sinne dieser Bestimmungen beginnt, wenn der Nutzer erstmals den Download von unserem Portal startet. Vor jedem Download wird der Nutzer auf die Bedingungen explizit hingewiesen. Die Kenntnisnahme wird vom Nutzer durch Ankreuzen des Formularfelds auf der betreffenden Download-Seite best&auml;tigt.
+
+(2) Ein Widerruf der Bestellung digitaler Inhalte ist nach dem ersten Start des Downloads nicht mehr m&ouml;glich (vgl. Allgemeine Gesch&auml;ftsbedingungen, Abschnitt VI).
+
+&sect; 4 Urheberrecht
+(1) Alle im oder durch den Download-Service zur Verf&uuml;gung gestellten Inhalte stehen im alleinigen geistigen Eigentum des Anbieters oder seinen Lizenzgebern und sind durch deutsche und internationale Urheberrechtsgesetze gesch&uuml;tzt. gesch&uuml;tzt. Jegliche Vervielf&auml;ltigung oder Weiterverbreitung in jedem Medium als Ganzes oder in Teilen bedarf der schriftlichen Zustimmung des Anbieters.
+
+&sect; 5 Lizenzbestimmungen zur Nutzung der Downloads / Schutz vor Missbrauch
+(1) Die zum Download angebotenen Musikwerke sind f&uuml;r den Anbieter urheberrechtlich gesch&uuml;tzt. Die Wahrnehmung dieser Rechte erfolgt ohne Beteiligung von Verwertungsgesellschaften (z.B. GEMA, GVL) ausschlie&szlig;lich durch den Anbieter selbst. Der Nutzer ist verpflichtet, die bestehenden Urheberrechte zu beachten und verpflichtet sich, diese nicht zu verletzen. Urhebervermerke sowie andere Hinweise auf Schutzrechte d&uuml;rfen weder entfernt noch ver&auml;ndert werden.
+
+(2) Der Nutzer darf die Download-Inhalte nur zum eigenen Gebrauch abrufen, speichern und nutzen. Als Ma&szlig;stab hierf&uuml;r gelten die Grenzen des &sect; 53 UrhG.
+
+(3) Die Weitergabe an Dritte sowie die Nutzung der erworbenen Download-Inhalte durch Dritte ist nicht gestattet. Dritte im Sinne dieser Bedingungen sind Personen au&szlig;erhalb des Haushalts des Nutzers. Der Nutzer tr&auml;gt daf&uuml;r die Verantwortung und Sorgfalt (z. B. mittels geeigneter Sicherungsma&szlig;nahmen seines Computers, Schutz seines Smartphones mittels PIN u. &auml;.).
+
+(4) Der Anbieter verzichtet darauf, Download-Inhalte mit einem sog. &bdquo;harten Kopierschutz&ldquo; (DRM) zu versehen. Somit kann der Nutzer die Download-Inhalte problemlos auf verschiedenen Ger&auml;ten verwenden und f&uuml;r seinen eigenen Gebrauch kopieren. Das Recht zur privaten Vervielf&auml;ltigung ist auf maximal 5 Kopien auf den Datentr&auml;gern und/oder Abspielger&auml;ten des Nutzers beschr&auml;nkt.
+
+(5) Technische Schutzma&szlig;nahmen: Zum Schutz vor unberechtigter Weitergabe (Kopierschutz) und anderen Formen des Missbrauchs werden die einzelnen Download-Inhalte vom Anbieter mit einem unsichtbaren, unh&ouml;rbaren, digitalen Kennzeichen (sog. Wasserzeichen) versehen. Dieses Kennzeichen beinhaltet folgende Daten in verschl&uuml;sselter Form: 1. Die Kundennummer des Nutzers 2. die Nummer der Bestellung. Der Nutzer erkl&auml;rt sich vor dem Download damit einverstanden.
+
+(6) Der Nutzer erkl&auml;rt sich weiter damit einverstanden, dass das digitale Kennzeichen (Wasserzeichen) vom Anbieter ausgelesen werden darf, wenn Verdacht auf Missbrauch besteht. Dem Nutzer ist es nicht gestattet, das digitale Kennzeichen zu entfernen.
+
+(7) Das Recht zur Nutzung der Download-Inhalte ist auf die akustische Wiedergabe beschr&auml;nkt. Im Falle der Verwendung im Rahmen &ouml;ffentlicher Vortragsveranstaltungen ist die Wiedergabedauer auf 2 Minuten zu beschr&auml;nken.
+
+(8) Dar&uuml;ber hinaus ist eine Nutzung und Wiedergabe in umgestalteter oder bearbeiteter Form unzul&auml;ssig.
+
+(9) Die Weiterver&auml;u&szlig;erung von Download-Inhalten ist nicht gestattet, da der Nutzer von Download-Inhalten keinen ver&auml;u&szlig;erbaren Gegenstand (&bdquo;k&ouml;rperhaftes Werkexemplar&ldquo;) erwirbt, sondern eine k&ouml;rperlose Dienstleistung (Nutzungslizenz).
+
+&sect; 6 Registrierung als Nutzer
+(1) Damit der Nutzer Downloads beziehen kann, muss er auf der Internetseite des Anbieters zun&auml;chst ein eigenes Kundenkonto anlegen und sich als Kunde registrieren. &Uuml;ber dieses Konto erfolgen der Erwerb und der Download der angebotenen Download-Inhalte. Die zur Erstellung des Kundenkontos erforderlichen Daten sind vollst&auml;ndig und wahrheitsgem&auml;&szlig; einzugeben, soweit diese nicht als freiwillige Angaben gekennzeichnet sind. Nachtr&auml;gliche &Auml;nderungen der pers&ouml;nlichen Daten sind vom Kunden eigenverantwortlich vorzunehmen.
+
+(2) Um einen Download vornehmen zu k&ouml;nnen, muss der Nutzer jeweils in seinem Kundenkonto angemeldet sein. Dazu legt er bereits bei der Registrierung seines Kundenkontos ein Passwort fest, das er jederzeit selbst &auml;ndern kann. Der Nutzer ist verpflichtet, sein Passwort geheim zu halten. Eine Weitergabe an Dritte ist nicht gestattet. Der Nutzer ist allein f&uuml;r s&auml;mtliche unter seinem Namen get&auml;tigten Aktionen verantwortlich.
+
+(3) Sowohl der Nutzer als auch der Anbieter k&ouml;nnen das Kundenkonto zu jeder Zeit ohne Einhaltung einer Frist und ohne Angabe von Gr&uuml;nden k&uuml;ndigen. Ein Anspruch auf R&uuml;ckerstattung von Leistungen besteht nicht, soweit diese bereits erbracht wurden.
+
+(4) Das Kundenkonto darf vom Nutzer nicht auf einen Dritten &uuml;bertragen werden.
+
+(5) Die sind verpflichtet, den Anbieter unverz&uuml;glich &uuml;ber etwaige Sicherheitsverst&ouml;&szlig;e in Bezug auf ihr Kundenkonto zu informieren. Sie haften f&uuml;r jeden Missbrauch, der unter Verwendung Ihrer Kontoinformationen oder Ihres Kundenkontos erfolgt, wenn Sie diesen Missbrauch zu vertreten haben, insbesondere wenn Sie gegen Ihre Sorgfaltspflichten versto&szlig;en haben.
+
+&sect; 7 Pflichtverletzungen des Nutzers
+(1) Der Nutzer hat dem Anbieter s&auml;mtliche Sch&auml;den, die diesem aufgrund einer Verletzung der Verpflichtungen und/oder Obliegenheiten des Nutzers aus diesen Nutzungsbedingungen f&uuml;r Downloads entstehen, zu ersetzen.
+
+(2) F&uuml;r den Fall, dass Dritte gegen&uuml;ber dem Anbieter aufgrund einer Pflichtverletzung des Nutzers Anspr&uuml;che geltend machen, hat der Nutzer den Anbieter von diesen &ndash; auf dessen erstes Anfordern hin &ndash; freizustellen. Der Nutzer hat hierbei die Kosten der notwendigen Rechtsverteidigung des Anbieters, einschlie&szlig;lich s&auml;mtlicher Gerichts- und Anwaltskosten, soweit diese angemessen sind, zu &uuml;bernehmen.
+
+(3) Der Nutzer ist dar&uuml;ber hinaus verpflichtet, den Anbieter f&uuml;r den Fall einer Inanspruchnahme durch andere Nutzer oder Dritte unverz&uuml;glich wahrheitsgem&auml;&szlig; und vollst&auml;ndig s&auml;mtliche ihm zur Verf&uuml;gung stehende Informationen mitzuteilen, die f&uuml;r eine Pr&uuml;fung der Anspr&uuml;che und eine Verteidigung erforderlich sind. Dar&uuml;ber hinausgehende Schadenersatzanspr&uuml;che des Anbieters gegen&uuml;ber dem Nutzer bleiben unber&uuml;hrt.
+
+(4) Die vorstehenden Pflichten der Nummern 1 und 2 gelten nicht, wenn der Nutzer die betreffende Rechtsverletzung nicht zu vertreten hat.
+
+&sect; 8 Verg&uuml;tung / Zahlungsweise
+(1) Die Verg&uuml;tung f&uuml;r den Download von Audiodateien des Anbieters wird durch den auf seiner Webseite ver&ouml;ffentlichten Preis f&uuml;r den Download-Inhalt ausgewiesen. Es gelten die zum Zeitpunkt der Bestellung auf der Internetseite des Anbieters aufgef&uuml;hrten Preise. Alle Preise sind als Endkundenpreise inklusive der gesetzlichen Umsatzsteuer zu verstehen.
+
+(2) Die Verg&uuml;tung ist regelm&auml;&szlig;ig im Voraus zu entrichten. Bei bestimmten Zahlweisen (u. a. Lastschrift im innerdeutschen Verkehr) kann die Verg&uuml;tung auch im Nachhinein entrichtet werden. Bei allen anderen Zahlweisen wird der Download erst dann freigeschaltet, wenn die Zahlung verbindlich erfolgt ist.
+
+(3) Im &Uuml;brigen gelten f&uuml;r den Zahlungsverkehr unsere &bdquo;Allgemeinen Gesch&auml;ftsbedingungen&ldquo;.
+
+&sect; 9 Gew&auml;hrleistung, Garantiebestimmungen
+Die Nutzung des Download-Portals, insbesondere der Download von Daten, erfolgt auf eigene Gefahr des Nutzers. S&auml;mtliche hier angebotenen Downloads werden vor Bereitstellung einer Virenpr&uuml;fung unterzogen. Eine Haftung des Anbieters f&uuml;r Sch&auml;den, Beeintr&auml;chtigungen, Datenverlust oder sonstige Sch&auml;den durch Computerviren oder sonstige Beeintr&auml;chtigungen kann vom Anbieter gleichwohl nicht &uuml;bernommen werden, ebenso wenig eine Haftung f&uuml;r mittelbare Sch&auml;den oder entgangenen Gewinn. Dies gilt auch f&uuml;r Sch&auml;den Dritter, die sie in diesem Zusammenhang verursachen.
+
+Der Anbieter &uuml;bernimmt Gew&auml;hr f&uuml;r die ordnungsgem&auml;&szlig;e technische Beschaffenheit der Download-Inhalte (Vollst&auml;ndigkeit und Integrit&auml;t der Dateien, format&uuml;bliche Funktionalit&auml;t und Nutzbarkeit der verwendeten digitalen Formate).
+
+Bei Downloads, die vom Nutzer oder aus Gr&uuml;nden, die vom Anbieter nicht zu vertreten sind, abgebrochen wurden und somit unvollst&auml;ndig sind, &uuml;bernehmen wir keine Gew&auml;hr.
+
+&sect; 10 Schadenersatz, Haftungsumfang
+
+(1) Schadenersatzanspr&uuml;che gegen den Anbieter sind unabh&auml;ngig vom Rechtsgrund ausgeschlossen, es sei denn, der Anbieter, seine gesetzlichen Vertreter oder Erf&uuml;llungsgehilfen haben vors&auml;tzlich oder grob fahrl&auml;ssig gehandelt. F&uuml;r leichte Fahrl&auml;ssigkeit haftet der Anbieter nur, wenn eine f&uuml;r die Erreichung des Vertragszwecks wesentliche Vertragspflicht durch den Anbieter, seine gesetzlichen Vertreter oder leitende Angestellte oder Erf&uuml;llungsgehilfen verletzt wurden.
+
+(2) Vorstehende Haftungsbegrenzung gilt nicht f&uuml;r Schadenersatzanspr&uuml;che, die aus der Verletzung von Leben, K&ouml;rper, Gesundheit oder der &Uuml;bernahme einer Beschaffenheitsgarantie oder einem arglistigen Verschweigen von M&auml;ngeln durch den Anbieter resultieren. Soweit der Anbieter f&uuml;r leichte Fahrl&auml;ssigkeit haftet, wird der Schadensersatzanspruch auf den vorhersehbaren, vertragstypischen Schaden begrenzt.
+
+(3) Schadenersatzanspr&uuml;che gegen den Anbieter verj&auml;hren nach Ablauf von 12 Monaten seit ihrer Entstehung, es sei denn, sie basieren auf einer unerlaubten oder vors&auml;tzlichen Handlung. Soweit die Haftung vom Anbieter ausgeschlossen ist, gilt dies auch f&uuml;r Partner des Anbieters.
+
+&sect; 11 Schlussbestimmungen, Anwendbares Recht, Gerichtszust&auml;ndigkeit, salvatorische Klausel
+(1) M&uuml;ndliche Nebenabreden bestehen nicht. &Auml;nderungen oder Erg&auml;nzungen dieser Nutzungsbedingungen bed&uuml;rfen der Schriftform. Dies gilt auch f&uuml;r die Aufhebung dieses Schriftformerfordernisses.
+
+(2) Es wird die Geltung des Rechts der Bundesrepublik Deutschland unter Ausschluss des UN-Kaufrechts vereinbart. Diese Vereinbarung gilt auch dann, wenn nach der EU-Verordnung Nr. 593/2008 &uuml;ber das auf vertragliche Schuldverh&auml;ltnisse anzuwendende Recht (Rom I) das Recht des Staates zur Anwendung k&auml;me, in welchem der K&auml;ufer seinen gew&ouml;hnlichen Aufenthalt hat; jedoch mit der Einschr&auml;nkung, dass dem K&auml;ufer als Verbraucher nicht der Schutz entzogen wird, welcher ihm durch zwingende Vorschriften seines Aufenthaltsstaates gew&auml;hrt wird.
+
+(3) Erf&uuml;llungsort und ausschlie&szlig;licher Gerichtsstand ist, soweit gesetzlich zul&auml;ssig, der Standort des Anbieters.
+
+(4) Sollten einzelne Bestimmungen dieser Nutzungsbedingungen unwirksam sein oder den gesetzlichen Regelungen widersprechen, so werden hierdurch die Bedingungen im &Uuml;brigen nicht ber&uuml;hrt. Die unwirksame Bestimmung wird einvernehmlich durch eine rechtswirksame Bestimmung ersetzt, welche dem wirtschaftlichen Sinn und Zweck der unwirksamen Bestimmung am n&auml;chsten kommt. Die vorstehende Regelung gilt entsprechend bei Regelungsl&uuml;cken.
+
+Ende der Nutzungsbedingungen f&uuml;r Downloads</pre>
+</div>
+
+                                <button id="confirmDownload" class="btn btn-primary">{{ 'account.orderDownloadZipPopupButtonT'|trans }}</button>
+                                <button id="cancelDownload" class="btn btn-secondary">{{ 'account.orderDownloadZipPopupButtonF'|trans }}</button>
+                            </div>
+                        </div>
+
+                     <!-- Loading Pop-up -->
+                     <div id="loadingPopup" class="loading-popup">
+                         <div class="loading-popup-content">
+                             <h2 id="loadingText">{{ 'account.orderDownloadZipPopup2Header1'|trans }}</h2>
+                             <p>{{ "account.orderDownloadZipPopup2Header2"|trans }}</p>
+                             <div class="spinner"></div>
+                         </div>
+                     </div>
+
+            </div>
+            {% endif %}
+        {% endif %}
+
+
+    {% endif %}
+    <template downloads-zip-plugin></template>
+{% endblock %}

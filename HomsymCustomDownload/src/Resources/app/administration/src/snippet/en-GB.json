@@ -1,0 +1,9 @@
+{
+    "register": {
+        "administration": {
+            "menuItem": "Decryption Tool",
+            "navItem": "Decryption Tool",
+            "description": "A Tool"
+        }
+    }
+}

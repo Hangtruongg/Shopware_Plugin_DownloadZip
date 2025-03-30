@@ -1,0 +1,23 @@
+{% block sw_customer_tool %}
+    <sw-page class="decryption-test">
+        <template #content>
+
+        <div class="sw-card__content">
+                <label for="encryptedValue">Encrypted Value:</label>
+                <input type="text" v-model="encryptedValue"
+                placeholder="Enter encrypted value"
+                @keyup.enter="decryptComment">
+
+                <button @click="decryptComment" class="sw-button sw-button--primary">
+                    Decrypt
+                </button>
+
+                <p><strong>Decrypted Order ID:</strong> {{ decryptedOrderID }}</p>
+                <p><strong>Decrypted Customer Number:</strong> {{ decryptedCustomerNumber }}</p>
+            </div>
+
+        </template>
+    </sw-page>
+{% endblock %}
+
+

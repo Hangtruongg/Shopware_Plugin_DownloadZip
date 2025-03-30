@@ -1,0 +1,10 @@
+{
+  "account": {
+    "orderDownloadZipPopupHeader1": "Are you sure you want to download the ZIP?",
+    "orderDownloadZipPopupHeader2": "Please confirm that you want to download the media as a ZIP file.",
+    "orderDownloadZipPopup2Header1": "Your download is starting...",
+    "orderDownloadZipPopup2Header2": "Please wait while we prepare your ZIP file.",
+    "orderDownloadZipPopupButtonT": "Yes, Download",
+    "orderDownloadZipPopupButtonF": "Cancel"
+  }
+}

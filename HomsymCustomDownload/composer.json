@@ -1,0 +1,29 @@
+{
+  "name": "homsym/custom-download",
+  "description": "homsym/custom-download",
+  "type": "shopware-platform-plugin",
+  "version": "0.0.1",
+  "license": "MIT",
+  "require": {
+    "shopware/core": "~6.6.0"
+  },
+  "extra": {
+    "shopware-plugin-class": "Download\\HomsymCustomDownload",
+    "label": {
+      "de-DE": "Homsym Custom Download",
+      "en-GB": "Homsym Custom Download"
+    }
+  },
+  "autoload": {
+    "psr-4": {
+      "Download\\": "src/"
+    }
+  },
+
+  "authors": [
+    {
+      "name": "Hang Truong",
+      "role": "developer"
+    }
+  ]
+}
