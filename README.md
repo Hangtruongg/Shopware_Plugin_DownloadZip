@@ -15,7 +15,7 @@ Contact: thanhhang2x2@gmail.com
 ## **Table of Contents**
 1. [Introduction](#introduction)
 2. [Installation](#installation)
-3. [Technic Information](#technic information)
+3. [Technical Information](#technical-information)
 4. [Usage](#usage)
 5. [Troubleshooting](#troubleshooting)
 6. [Contributing](#contributing)
@@ -66,7 +66,7 @@ bin/console plugin:install --activate HomsymCustomDownload
 ```
 5. Test the Download-Zip in Storefront and check log to see infos or errors
 
-## **Technic Information**
+## **Technical Information**
 
 - DownloadZipRoute: The main class responsible for handling the core logic of the download process. It orchestrates the packaging of downloadable products into a ZIP file.
 
